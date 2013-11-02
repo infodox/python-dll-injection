@@ -35,11 +35,11 @@ arg_address = kernel32.VirtualAllocEx(h_process, 0, dll_len, VIRTUAL_MEM, PAGE_R
 
 # Write DLL path to allocated space
 written = c_int(0)
-kernel32.WriteProcessMemory(h_process, arg_address, dll_path, dll_len, bytef(written))
+kernel32.WriteProcessMemory(h_process, arg_address, dll_path, dll_len, byref(written))
 
 # Resolve LoadLibraryA Address
 h_kernel32 = kernel32.GetModuleHandleA("kernel32.dll")
-h.loadlib = kernel32.GetProcAddress(h_kernel32, "LoadLibraryA")
+h_loadlib = kernel32.GetProcAddress(h_kernel32, "LoadLibraryA")
 
 # Now we createRemoteThread with entrypoiny set to LoadLibraryA and pointer to DLL path as param
 thread_id = c_ulong(0)
